@@ -4,8 +4,18 @@
 ///
 import 'package:clickeable_regions/example.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-void main() => runApp(const MyApp());
+void main() {
+  Paint.enableDithering = true;
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+  ));
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);

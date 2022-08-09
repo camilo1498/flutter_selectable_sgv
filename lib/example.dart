@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'dart:ui' as ui;
 
 import 'package:path_drawing/path_drawing.dart';
