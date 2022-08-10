@@ -2,7 +2,7 @@
 /// Created by Giovanni Terlingen
 /// See LICENSE file for more information.
 ///
-import 'package:clickeable_regions/example.dart';
+import 'package:clickeable_regions/clickable_svg.dart';
 import 'package:clickeable_regions/muscle_diagram.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -343,7 +343,7 @@ class _MainState extends State<Main> {
         child: InteractiveViewer(
           maxScale: 10.0,
           minScale: 1.0,
-          child: MotionControl(shapes: shapes),
+          child: ClickableSvg(shapes: shapes),
         ),
       ),
     );

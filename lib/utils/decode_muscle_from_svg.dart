@@ -1,4 +1,4 @@
-import 'package:clickeable_regions/example.dart';
+import 'package:clickeable_regions/clickable_svg.dart';
 import 'package:flutter/material.dart';
 
 class DecodeMuscleFromSvg {

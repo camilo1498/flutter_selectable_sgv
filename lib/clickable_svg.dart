@@ -1,15 +1,19 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:ui' as ui;
 
 import 'package:path_drawing/path_drawing.dart';
 
-class MotionControl extends StatelessWidget {
-  const MotionControl({Key? key, required this.shapes}) : super(key: key);
+class ClickableSvg extends StatelessWidget {
+  const ClickableSvg({Key? key, required this.shapes}) : super(key: key);
 
   final List<Shape> shapes;
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       body: LayoutBuilder(
           builder: (context, constraints) {
@@ -19,26 +23,12 @@ class MotionControl extends StatelessWidget {
             return Stack(
               alignment: Alignment.center,
               children: [
-                for (final shape in shapes)
-                  Positioned.fromRect(
-                    rect: shape.bounds,
-                    child: Material(
-                      shape: shape.shapeBorder,
-                      color: shape.color,
-                      elevation: 0,
-                      clipBehavior: Clip.antiAlias,
-                      child: InkWell(
-                        highlightColor: Colors.red,
-                        splashColor: Colors.red,
-                        onTap: shape.onTap ?? (){},
-                        child: GestureDetector(
-                          behavior: HitTestBehavior.translucent,
-                          onPanUpdate: shape.onPanUpdate,
-                          child: shape.child,
-                        ),
-                      ),
-                    ),
-                  ),
+                ...shapes.map((shape) {
+                  return _Muscle(
+                    shape: shape,
+                  );
+                })
+
               ],
             );
           }
@@ -47,9 +37,52 @@ class MotionControl extends StatelessWidget {
   }
 }
 
+class _Muscle extends StatefulWidget {
+  final Shape shape;
+  const _Muscle({
+    Key? key,
+    required this.shape
+  }) : super(key: key);
+
+  @override
+  State<_Muscle> createState() => _MuscleState();
+}
+
+class _MuscleState extends State<_Muscle> {
+  bool selected = false;
+  @override
+  Widget build(BuildContext context) {
+    return Positioned.fromRect(
+      rect: widget.shape.bounds,
+      child: Material(
+        shape: widget.shape.shapeBorder,
+        color: selected ? Colors.red : widget.shape.color,
+        elevation: 0,
+        clipBehavior: Clip.antiAlias,
+        child: GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: (){
+            HapticFeedback.mediumImpact();
+            setState(() => selected = true);
+            Timer.periodic(const Duration(milliseconds: 100), (timer) {
+              setState(() => selected = false);
+              timer.cancel();
+            });
+          },
+          onTapUp: (_) => setState(() => selected = false),
+          onTapDown: (_) => setState(() => selected = true),
+          onTapCancel: () => setState(() => selected = false),
+          child: widget.shape.child,
+        ),
+      ),
+    );
+  }
+}
+
+
 class Shape {
   final String pathData;
-  final Color color;
+  Color color;
   final Widget child;
   final GestureTapCallback? onTap;
   final String? contentText;
