@@ -14,7 +14,7 @@ class MotionControl extends StatelessWidget {
       body: LayoutBuilder(
           builder: (context, constraints) {
             for (final shape in shapes) {
-              shape.computeShapeBorder(const Size(612, 693), Offset.zero & constraints.biggest);
+              shape.computeShapeBorder(const Size(1030, 1978), Offset.zero & constraints.biggest);
             }
             return Stack(
               alignment: Alignment.center,
@@ -30,16 +30,11 @@ class MotionControl extends StatelessWidget {
                       child: InkWell(
                         highlightColor: Colors.red,
                         splashColor: Colors.red,
-                        onTap: () {
-                          shape.onTap!();
-                        },
+                        onTap: shape.onTap ?? (){},
                         child: GestureDetector(
                           behavior: HitTestBehavior.translucent,
                           onPanUpdate: shape.onPanUpdate,
-                          child: Tooltip(
-                            message: shape.contentText ?? 'example',
-                            child: shape.child,
-                          ),
+                          child: shape.child,
                         ),
                       ),
                     ),
