@@ -19,10 +19,10 @@ class FlipCard extends StatefulWidget {
       }) : super(key: key);
 
   @override
-  FlipCardState createState() => FlipCardState();
+  _FlipCardState createState() => _FlipCardState();
 }
 
-class FlipCardState extends State<FlipCard> with TickerProviderStateMixin {
+class _FlipCardState extends State<FlipCard> with TickerProviderStateMixin {
   /// instances
   final flipCardController = AnimationCardController();
   /// variables
@@ -90,7 +90,7 @@ class FlipCardState extends State<FlipCard> with TickerProviderStateMixin {
 }
 
 class AnimationCardController {
-  FlipCardState? state;
+  _FlipCardState? state;
 
   /// Flip the card
   Future flipCard() async => state?.flipWidget();
