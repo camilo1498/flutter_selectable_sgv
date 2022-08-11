@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'dart:ui' as ui;
 
 import 'package:path_drawing/path_drawing.dart';
@@ -28,7 +29,6 @@ class ClickableSvg extends StatelessWidget {
                     shape: shape,
                   );
                 })
-
               ],
             );
           }
@@ -50,6 +50,8 @@ class _Muscle extends StatefulWidget {
 
 class _MuscleState extends State<_Muscle> {
   bool selected = false;
+  final tooltipController = JustTheController();
+
   @override
   Widget build(BuildContext context) {
     return Positioned.fromRect(
@@ -58,7 +60,7 @@ class _MuscleState extends State<_Muscle> {
         shape: widget.shape.shapeBorder,
         color: selected ? Colors.red : widget.shape.color,
         elevation: 0,
-        clipBehavior: Clip.antiAlias,
+        clipBehavior: Clip.hardEdge,
         child: GestureDetector(
           behavior: HitTestBehavior.translucent,
           onTap: (){
